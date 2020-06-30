@@ -43,7 +43,7 @@ class LoginActivity: AppCompatActivity() {
             .addOnCompleteListener {
                 if (!it.isSuccessful) return@addOnCompleteListener
 
-                // else if successful
+                // if login is successful, go to the latest messages page
                 Log.d("Main", "Successfully logged in user with uid: ${it.result?.user?.uid}")
                 val intent = Intent(this, LatestMessagesActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)

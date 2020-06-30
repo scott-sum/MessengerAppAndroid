@@ -35,7 +35,7 @@ class RegisterActivity : AppCompatActivity() {
             Log.d(TAG, "Try to show login activity")
 
             //launch login activity
-            var intent = Intent(this, LoginActivity::class.java)
+            val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
 
@@ -55,7 +55,7 @@ class RegisterActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == 0 && resultCode == Activity.RESULT_OK && data != null) {
-            //proceed and check what the selected image was...
+            //proceed and check what the selected image was
             Log.d(TAG, "Photo was selected")
 
             selectedPhotoUri = data.data
@@ -65,17 +65,6 @@ class RegisterActivity : AppCompatActivity() {
             selectphoto_imageview_register.setImageBitmap(bitmap)
 
             selectimage_button_register.alpha = 0f
-
-            //val source = ImageDecoder.createSource(contentResolver, selectedPhotoUri!!)
-
-            //val bitmapDrawable = ImageDecoder.decodeDrawable(source)
-
-            //selectimage_button_register.background = bitmapDrawable
-
-            /*val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, selectedPhotoUri)
-
-            val bitmapDrawable = BitmapDrawable(bitmap)
-            selectimage_button_register.setBackgroundDrawable(bitmapDrawable)*/
         }
     }
 
@@ -96,7 +85,7 @@ class RegisterActivity : AppCompatActivity() {
             .addOnCompleteListener {
                 if (!it.isSuccessful) return@addOnCompleteListener
 
-                // else if successful
+                // if successfully registered user, remember to upload image
                 Log.d(TAG, "Successfully created user with uid: ${it.result?.user?.uid}")
 
                 uploadImagetoFirebaseStorage()
@@ -138,8 +127,9 @@ class RegisterActivity : AppCompatActivity() {
 
         ref.setValue(user)
             .addOnSuccessListener {
-                Log.d(TAG, "Finally we saved the user to Firebase Database")
+                Log.d(TAG, "Saved the user to Firebase Database")
 
+                //go to latest messages page after registering user
                 val intent = Intent(this, LatestMessagesActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
